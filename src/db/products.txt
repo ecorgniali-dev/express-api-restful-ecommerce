@@ -1,0 +1,42 @@
+[
+	{
+		"id": 1,
+		"timestamp": "20/7/2021 17:13:50",
+		"nombre": "iMac Pro 27\"",
+		"descripcion": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, fuga?",
+		"codigo": "0001",
+		"foto": "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678077-computer-128.png",
+		"precio": "100",
+		"stock": "5"
+	},
+	{
+		"id": 2,
+		"timestamp": "20/7/2021 16:46:05",
+		"nombre": "Lampara",
+		"descripcion": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, fuga?",
+		"codigo": "0002",
+		"foto": "https://cdn3.iconfinder.com/data/icons/education-and-school-8/48/Light-128.png",
+		"precio": "150",
+		"stock": "10"
+	},
+	{
+		"id": 3,
+		"timestamp": "20/7/2021 16:46:16",
+		"nombre": "Calculadora",
+		"descripcion": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, fuga?",
+		"codigo": "0003",
+		"foto": "https://cdn3.iconfinder.com/data/icons/education-and-school-8/48/Finance-128.png",
+		"precio": "200",
+		"stock": "15"
+	},
+	{
+		"id": 4,
+		"timestamp": "20/7/2021 16:46:26",
+		"nombre": "Camara Kodak",
+		"descripcion": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, fuga?",
+		"codigo": "0004",
+		"foto": "https://cdn3.iconfinder.com/data/icons/education-and-school-8/48/Camera-128.png",
+		"precio": "250",
+		"stock": "20"
+	}
+]
