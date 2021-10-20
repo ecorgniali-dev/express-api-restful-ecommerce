@@ -6,7 +6,7 @@ const isAdmin = require('../app/middlewares/isAdmin');
 const { loggerWarn } = require('../config/log4js');
 
 
-router.get('/listar', async (req, res) => {
+router.get('/listar', async(req, res) => {
     try {
         const data = await products.list();
         if (data.length > 0) {
@@ -20,7 +20,7 @@ router.get('/listar', async (req, res) => {
     }
 });
 
-router.get('/listar/:id', async (req, res) => {
+router.get('/listar/:id', async(req, res) => {
     try {
         const product = await products.listId(req.params.id);
         res.json(product);
@@ -30,7 +30,7 @@ router.get('/listar/:id', async (req, res) => {
     }
 });
 
-router.post('/agregar', checkAuthentication, isAdmin, async (req, res) => {
+router.post('/agregar', checkAuthentication, isAdmin, async(req, res) => {
     try {
         res.json(await products.save(req.body));
     } catch (error) {
@@ -39,7 +39,7 @@ router.post('/agregar', checkAuthentication, isAdmin, async (req, res) => {
     }
 });
 
-router.put('/actualizar/:id', checkAuthentication, isAdmin, async (req, res) => {
+router.put('/actualizar/:id', checkAuthentication, isAdmin, async(req, res) => {
     try {
         res.json(await products.update(req.params.id, req.body));
     } catch (error) {
@@ -48,7 +48,7 @@ router.put('/actualizar/:id', checkAuthentication, isAdmin, async (req, res) => 
     }
 });
 
-router.delete('/borrar/:id', checkAuthentication, isAdmin, async (req, res) => {
+router.delete('/borrar/:id', checkAuthentication, isAdmin, async(req, res) => {
     try {
         res.json(await products.delete(req.params.id));
     } catch (error) {
@@ -58,7 +58,7 @@ router.delete('/borrar/:id', checkAuthentication, isAdmin, async (req, res) => {
 });
 
 // filtros
-router.get('/buscar', async (req, res) => {
+router.get('/buscar', async(req, res) => {
     try {
         const data = await products.search(req.query);
         if (data.length > 0) {

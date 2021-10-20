@@ -1,16 +1,16 @@
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const userController = require('../controllers/users');
-const config = require('../../config/config');
-const transporterGm = require('../email/gmail');
-const { loggerInfo, loggerWarn, loggerError } = require('../../config/log4js');
+const userController = require('../users');
+const config = require('../../../config/config');
+const transporterGm = require('../../email/gmail');
+const { loggerInfo, loggerWarn, loggerError } = require('../../../config/log4js');
 
 // LocalStrategy de "login"
 passport.use('login', new LocalStrategy({
-    passReqToCallback: true
-},
-    async (req, username, password, done) => {
+        passReqToCallback: true
+    },
+    async(req, username, password, done) => {
         // chequeamos si el usuario existe en mongo
         const user = await userController.list({ email: username });
 
@@ -37,11 +37,11 @@ const isValidPassword = (user, password) => {
 
 
 passport.use('signup', new LocalStrategy({
-    passReqToCallback: true
-},
+        passReqToCallback: true
+    },
     (req, username, password, done) => {
 
-        findOrCreateUser = async () => {
+        findOrCreateUser = async() => {
             // buscar en mongo el username
             const user = await userController.list({ email: username });
 
@@ -65,9 +65,10 @@ passport.use('signup', new LocalStrategy({
                 foto: req.file.filename
             }
 
-            userController.save(newUser);
+            const userSaved = await userController.save(newUser);
 
             //envio aviso logueo con Gmail
+            /*
             transporterGm.sendMail({
                 from: config.GMAIL_USER,
                 to: config.ADMIN_EMAIL,
@@ -86,8 +87,9 @@ passport.use('signup', new LocalStrategy({
                 }
                 loggerInfo.info(info);
             });
+            */
 
-            return done(null, newUser);
+            return done(null, userSaved);
 
         }
 

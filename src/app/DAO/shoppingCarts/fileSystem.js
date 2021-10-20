@@ -1,51 +1,58 @@
+const IDao = require('../IDao');
 const fs = require('fs');
-const { loggerError } = require('../../../config/log4js');
-const productsModel = require('../factoryProducts');
+const { v4: uuidv4 } = require('uuid');
+const fsDaoProducts = require('../products/fileSystem').getInstance();
 
-class FileSystem {
+let instaciaFileSystem = null;
 
-    #carritoId
-    #urlPath
+class FileSystemDao extends IDao {
 
     constructor() {
-        this.#urlPath = 'db/shoppingCarts.txt';
-        this.#carritoId = ++this.read().length;
+        super();
+
+        this.urlPath = 'src/dbFile/shoppingCarts.txt';
     }
 
-    create(id_producto) {
-        const producto = productsModel.readId(id_producto);
-        let carritos = this.read();
+    static getInstance() {
+        if (!instaciaFileSystem) {
+            instaciaFileSystem = new FileSystemDao();
+        }
+
+        return instaciaFileSystem;
+    }
+
+    create(id_producto, id_client) {
+        const producto = fsDaoProducts.readId(id_producto);
+        let carritos = JSON.parse(fs.readFileSync(this.urlPath, 'utf-8'));
         const newProductCart = {
-            id: this.#carritoId++,
+            id: uuidv4(),
             timestamp: new Date().toLocaleString(),
-            producto: producto
+            producto: producto,
+            client_id: id_client
         };
         carritos.push(newProductCart);
-        fs.writeFileSync(this.#urlPath, JSON.stringify(carritos, null, '\t'));
+        fs.writeFileSync(this.urlPath, JSON.stringify(carritos, null, '\t'));
         return newProductCart;
     }
 
-    read() {
-        try {
-            const carritos = fs.readFileSync(this.#urlPath, 'utf-8');
-            return carritos ? JSON.parse(carritos) : [];
-        } catch (error) {
-            loggerError.error(`Error de persistencia al leer ${this.#urlPath}: ${error.message}`);
-        }
+    read(client_id) {
+        const carritos = JSON.parse(fs.readFileSync(this.urlPath, 'utf-8'));
+        const carritoUser = carritos.filter(e => e.client_id == client_id);
+        return carritoUser;
     }
 
     readId(id) {
-        const carritos = this.read();
+        const carritos = JSON.parse(fs.readFileSync(this.urlPath, 'utf-8'));
         const carrito = carritos.filter(e => e.id == id);
         return carrito;
     }
 
     delete(id) {
-        let carritos = this.read();
+        let carritos = JSON.parse(fs.readFileSync(this.urlPath, 'utf-8'));
         const index = carritos.findIndex(carrito => carrito.id == id);
         if (index >= 0) {
             const carritoEliminado = carritos.splice(index, 1);
-            fs.writeFileSync(this.#urlPath, JSON.stringify(carritos, null, '\t'));
+            fs.writeFileSync(this.urlPath, JSON.stringify(carritos, null, '\t'));
             return carritoEliminado[0];
         } else {
             return false;
@@ -54,4 +61,4 @@ class FileSystem {
 
 }
 
-module.exports = FileSystem;
+module.exports = FileSystemDao;

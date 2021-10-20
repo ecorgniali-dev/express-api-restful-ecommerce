@@ -1,21 +1,17 @@
 const { Router } = require('express');
 const router = Router();
-const passport = require('../app/auth/passport');
+const passport = require('../app/controllers/auth/passport');
 const upload = require('../app/middlewares/multer');
 
 //-----------LOGIN----------------
-router.post('/login', passport.authenticate('login',
-    {
-        successRedirect: '/'
-    }
-));
+router.post('/login', passport.authenticate('login', {
+    successRedirect: '/'
+}));
 
 //-----------REGISTRO----------------
-router.post('/signup', upload.single('foto'), passport.authenticate('signup',
-    {
-        successRedirect: '/'
-    }
-));
+router.post('/signup', upload.single('foto'), passport.authenticate('signup', {
+    successRedirect: '/'
+}));
 
 //-----------LOGOUT----------------
 router.get('/logout', (req, res) => {

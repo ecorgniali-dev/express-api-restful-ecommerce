@@ -8,7 +8,6 @@ const numCPUs = require('os').cpus().length;
 
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
-const MongoStore = require('connect-mongo');
 const session = require('express-session');
 const checkAuthentication = require('./app/middlewares/checkAuthentication');
 
