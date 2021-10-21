@@ -3,11 +3,14 @@
     const response = await fetch('/getUser');
     const data = await response.json();
     if (Object.keys(data)[0] != 'error') {
+        let fotoUrl = data.foto == null 
+        ? 'https://via.placeholder.com/150x150?text=noImage' 
+        : location.href+'assets/'+data.foto;
         document.getElementById('user').innerHTML = `
                 <span style="font-size: 14px; color: white;">${data.nombre} - </span>
                 <span style="font-size: 12px; color: white;">${data.email} - </span>
                 <span style="font-size: 12px; color: white;">${data.telefono}</span>
-                <img src="${location.href}assets/${data.foto}" width="45px" />
+                <img src="${fotoUrl}" width="45px" />
             `
         document.getElementById('btnLogout').innerHTML = `
                 <a class="btn btn-sm btn-danger" href="/auth/logout">Logout</a>

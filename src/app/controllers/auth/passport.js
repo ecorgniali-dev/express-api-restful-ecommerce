@@ -50,19 +50,18 @@ passport.use('signup', new LocalStrategy({
                 return done(null, false, loggerWarn.warn('Usuario ya existe'));
             }
 
-            if (!req.file) {
-                return done(null, false, loggerWarn.warn('Debe subir una foto de perfil'));
-            }
-
+            let { nombre, direccion, edad, telefono } = req.body;
+            let foto = req.file == undefined ? null : req.file.filename;
+            
             // creamos el susuario
             const newUser = {
                 email: username,
                 password: createHash(password),
-                nombre: req.body.nombre,
-                direccion: req.body.direccion,
-                edad: req.body.edad,
-                telefono: req.body.telefono,
-                foto: req.file.filename
+                nombre: nombre,
+                direccion: direccion,
+                edad: edad,
+                telefono: telefono,
+                foto: foto
             }
 
             const userSaved = await userController.save(newUser);
@@ -106,10 +105,11 @@ const createHash = (password) => {
 
 // serializar
 passport.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user.id);
 });
 // deserializar
-passport.deserializeUser((user, done) => {
+passport.deserializeUser(async(id, done) => {
+    let user = await userController.listId(id);
     done(null, user)
 });
 
