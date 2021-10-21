@@ -40,6 +40,16 @@ class FileSystemDao extends IDao {
         }
     }
 
+    readId(id) {
+        if (id) {
+            const users = JSON.parse(fs.readFileSync(this.urlPath, 'utf-8'));
+            const user = users.filter(e => e.id == id);
+            return user[0];
+        } else {
+            return false;
+        }
+    }
+
 }
 
 module.exports = FileSystemDao;
