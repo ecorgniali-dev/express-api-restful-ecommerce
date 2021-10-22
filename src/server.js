@@ -63,7 +63,7 @@ if (cluster.isMaster && config.MODO_CLUSTER) {
 
     app.use('/productos', routerProducts);
     app.use('/carrito', checkAuthentication, routerShoppingCart);
-    app.use('/orders', checkAuthentication, routerOrders);
+    app.use('/ordenes', checkAuthentication, routerOrders);
     app.use('/auth', routerAuth);
 
     app.use(express.static(process.cwd() + '/src/public'));

@@ -299,7 +299,7 @@ const eliminarCarrito = async (id) => {
 //----------------------------------------------------
 const newOrder = async () => {
     try {
-        const response = await fetch('/orders/new-order', {
+        const response = await fetch('/ordenes/agregar', {
             method: 'POST'
         });
         const data = await response.json();
