@@ -91,7 +91,8 @@ const renderCarrito = async () => {
                 <td> <img src="${carrito.producto.foto}" width="50" height="50" alt="foto producto"> </td>
                 <td>${carrito.producto.nombre}</td>
                 <td>${carrito.producto.descripcion}</td>
-                <td>$ ${carrito.producto.precio}</td>
+                <td style="text-align: center;">${carrito.cantidad}</td>
+                <td style="text-align: right;">$ ${carrito.producto.precio}</td>
                 <td>
                     <button class="btn btn-sm btn-danger" type="button" onclick="eliminarCarrito('${carrito.id}')">
                         Eliminar
@@ -257,7 +258,11 @@ const agregarCarrito = async (id_product) => {
 
     try {
         const response = await fetch(`/carrito/agregar/${id_product}`, {
-            method: 'POST'
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({ cantidad: 1 })
         });
         const data = await response.json();
         if (Object.keys(data)[0] != 'error') {

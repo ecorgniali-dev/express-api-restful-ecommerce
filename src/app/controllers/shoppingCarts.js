@@ -15,8 +15,8 @@ class ShoppingCartController {
         return await this.shoppingCartDao.readId(id);
     }
 
-    async save(id_producto, id_cliente) {
-        return await this.shoppingCartDao.create(id_producto, id_cliente);
+    async save(id_producto, cantidad, id_cliente) {
+        return await this.shoppingCartDao.create(id_producto, cantidad, id_cliente);
     }
 
     async delete(id) {

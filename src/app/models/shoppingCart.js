@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema({
     timestamp: { type: Date, default: Date.now },
     producto: { type: mongoose.Schema.ObjectId, ref: "productos" },
+    cantidad: { type: Number, require: true },
     cliente: { type: mongoose.Schema.ObjectId, ref: "usuarios" }
 });
 

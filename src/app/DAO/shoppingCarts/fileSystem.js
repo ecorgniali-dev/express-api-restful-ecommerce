@@ -21,18 +21,28 @@ class FileSystemDao extends IDao {
         return instaciaFileSystem;
     }
 
-    create(id_producto, id_client) {
+    create(id_producto, cantidad, id_client) {
         const producto = fsDaoProducts.readId(id_producto);
         let carritos = JSON.parse(fs.readFileSync(this.urlPath, 'utf-8'));
-        const newProductCart = {
-            id: uuidv4(),
-            timestamp: new Date().toLocaleString(),
-            producto: producto,
-            client_id: id_client
-        };
-        carritos.push(newProductCart);
-        fs.writeFileSync(this.urlPath, JSON.stringify(carritos, null, '\t'));
-        return newProductCart;
+        let previousItem = carritos.filter(e => {
+            return (e.producto.id == id_producto && e.client_id == id_client)
+        });
+        if (previousItem.length) {
+            previousItem[0].cantidad += cantidad;
+            fs.writeFileSync(this.urlPath, JSON.stringify(carritos, null, '\t'));
+            return previousItem[0];
+        } else {
+            const newProductCart = {
+                id: uuidv4(),
+                timestamp: new Date().toLocaleString(),
+                producto: producto,
+                cantidad: cantidad,
+                client_id: id_client
+            };
+            carritos.push(newProductCart);
+            fs.writeFileSync(this.urlPath, JSON.stringify(carritos, null, '\t'));
+            return newProductCart;
+        }
     }
 
     read(client_id) {

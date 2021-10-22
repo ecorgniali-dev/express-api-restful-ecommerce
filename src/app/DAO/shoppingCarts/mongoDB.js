@@ -27,8 +27,18 @@ class MongoDBDao extends IDao {
         await db.connect();
     }
 
-    async create(id_producto, id_cliente) {
-        return await this.nombreColeccion.create({ producto: id_producto, cliente: id_cliente });
+    async create(id_producto, cantidad, id_cliente) {
+        let cant = await this.nombreColeccion.find({ producto: id_producto, cliente: id_cliente }, { cantidad });
+        if (cant.length) {
+            cant[0].cantidad += cantidad;  
+            return await this.nombreColeccion.findOneAndUpdate({ producto: id_producto, cliente: id_cliente }, { cantidad: cant[0].cantidad }, { new: true } );
+        } else {
+            return await this.nombreColeccion.create({
+                producto: id_producto,
+                cantidad: cantidad,
+                cliente: id_cliente
+            });
+        }
     }
 
     async read(id_cliente) {

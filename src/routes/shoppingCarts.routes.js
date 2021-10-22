@@ -33,7 +33,7 @@ router.get('/listar/:id', async(req, res) => {
 
 router.post('/agregar/:id_producto', async(req, res) => {
     try {
-        res.json(await carrito.save(req.params.id_producto, req.user.id));
+        res.json(await carrito.save(req.params.id_producto, req.body.cantidad, req.user.id));
     } catch (error) {
         loggerWarn.warn(error);
         res.json({ error: error.message });

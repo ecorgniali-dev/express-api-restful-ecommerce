@@ -29,6 +29,7 @@ class MySQLDao extends IDao {
                 return await knex.schema.createTable(tableName, table => {
                     table.increments('id');
                     table.integer('product_id').unsigned().notNullable();
+                    table.integer('cantidad').unsigned().notNullable();
                     table.integer('client_id').unsigned().notNullable();
                     table.timestamp('timestamp').defaultTo(knex.fn.now());
                     table.foreign('product_id').references('id').inTable('productos').onDelete('CASCADE');
@@ -40,13 +41,24 @@ class MySQLDao extends IDao {
         }
     }
 
-    async create(product_id, client_id) {
+    async create(product_id, cantidad, client_id) {
         try {
-            return await knex(this.tableName)
+            let data = await knex.from(this.tableName)
+                .select('*')
+                .where('product_id', product_id)
+                .andWhere('client_id', client_id);
+
+            if (data.length) {
+                data[0].cantidad += cantidad;
+                return await this.update(data[0].id, { cantidad: data[0].cantidad });
+            } else {
+                return await knex(this.tableName)
                 .insert({
                     product_id: product_id,
+                    cantidad: cantidad,
                     client_id: client_id
                 });
+            }
         } catch (error) {
             loggerError.error('--> error:', error);
         }
@@ -56,7 +68,7 @@ class MySQLDao extends IDao {
         try {
             let rows = await knex.from(this.tableName)
                 .join('productos', 'product_id', '=', 'productos.id')
-                .select('carritos.id', 'carritos.timestamp', 'carritos.product_id', 'carritos.client_id', 'productos.nombre', 'productos.descripcion', 'productos.codigo', 'productos.foto', 'productos.precio', 'productos.stock')
+                .select('carritos.id', 'carritos.timestamp', 'carritos.product_id', 'carritos.cantidad', 'carritos.client_id', 'productos.nombre', 'productos.descripcion', 'productos.codigo', 'productos.foto', 'productos.precio', 'productos.stock')
                 .where('client_id', client_id);
             let items = rows.map(element => {
                 return {
@@ -71,7 +83,8 @@ class MySQLDao extends IDao {
                         foto: element.foto,
                         precio: element.precio,
                         stock: element.stock
-                    }
+                    },
+                    cantidad: element.cantidad
                 }
             });
             return items;
