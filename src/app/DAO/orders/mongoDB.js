@@ -48,8 +48,8 @@ class MongoDBDao extends IDao {
 
     }
 
-    async read() {
-        return await this.nombreColeccion.find();
+    async read(query) {
+        return await this.nombreColeccion.find(query);
     }
 
     async readId(id) {

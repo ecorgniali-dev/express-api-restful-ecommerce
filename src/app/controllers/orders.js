@@ -7,8 +7,8 @@ class OrderController {
         this.orderDao = daoFactory.getPersistencia('orders', config.PERSISTENCIA);
     }
 
-    async list() {
-        return await this.orderDao.read();
+    async list(query) {
+        return await this.orderDao.read(query);
     }
 
     async listId(id) {

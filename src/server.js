@@ -43,6 +43,9 @@ if (cluster.isMaster && config.MODO_CLUSTER) {
     app.use(passport.initialize());
     app.use(passport.session());
 
+    app.set('views', process.cwd() + '/src/views');
+    app.set('view engine', 'ejs');
+
 
     // Rutas
     app.get('/', (req, res) => {
