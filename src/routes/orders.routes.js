@@ -18,6 +18,7 @@ router.get('/listar', async (req, res) => {
 router.post('/agregar', async (req, res) => {
     try {
         let cliente = {
+            id: req.user.id,
             email: req.user.email,
             direccion: req.user.direccion
         }

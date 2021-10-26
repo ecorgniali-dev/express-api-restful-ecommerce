@@ -1,5 +1,6 @@
 const IDao = require('../IDao');
 const ordersModel = require('../../models/order');
+const shoppingCartModel = require('../../models/shoppingCart');
 const MongoDBConnection = require('../../../database/connection');
 const config = require('../../../config/config');
 
@@ -40,6 +41,7 @@ class MongoDBDao extends IDao {
                 cantidad: e.cantidad
             }
         })
+        await shoppingCartModel.deleteMany({ cliente: cliente.id })
         return await this.nombreColeccion.create({
             productos: productos, 
             email: cliente.email, 
