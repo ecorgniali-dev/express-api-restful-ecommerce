@@ -1,5 +1,3 @@
-const config = require('./config/config');
-
 const express = require('express');
 const app = express();
 
@@ -8,11 +6,15 @@ const numCPUs = require('os').cpus().length;
 
 const passport = require('passport');
 const checkAuthentication = require('./app/middlewares/checkAuthentication');
+const errorHandler = require('./app/middlewares/errorHandler');
+const error404 = require('./app/middlewares/error404');
 
 const routerProducts = require('./routes/products.routes');
 const routerShoppingCart = require('./routes/shoppingCarts.routes');
 const routerOrders = require('./routes/orders.routes');
 const routerAuth = require('./routes/auth.routes');
+
+const config = require('./config/config');
 const { loggerInfo, loggerWarn, loggerError } = require('./config/log4js');
 
 
@@ -67,11 +69,8 @@ if (cluster.isMaster && config.MODO_CLUSTER) {
 
     app.use(express.static(process.cwd() + '/src/public'));
 
-    app.use((req, res, next) => {
-        loggerWarn.warn(`Ruta ${req.originalUrl} método ${req.method} no implementada`)
-        res.status(404).json({ error: -2, descripcion: `ruta ${req.originalUrl} método ${req.method} no implementada` });
-        next();
-    });
+    app.use(error404); // error 404
+    app.use(errorHandler); // errorHandler
 
     const server = app.listen(config.PORT, () => {
         loggerInfo.info(`Servidor escuchando en http://localhost:${config.PORT}`);

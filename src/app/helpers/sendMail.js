@@ -65,7 +65,32 @@ function enviarMailRegistroUsuario(newUser) {
 
 }
 
+function enviarMailErrorServer(error, host) {
+
+    //envio aviso error servidor al admin
+    transporterGm.sendMail({
+        from: config.GMAIL_USER,
+        to: config.ADMIN_EMAIL,
+        subject: 'Ha ocurrido un error en el servidor',
+        html: `
+                <h1>Ups! ha ocurrido un error en el servidor ${host} !!</h1>
+                <fieldset>
+                    <legend>Detalle:</legend>
+                    <p>${error}</p>
+                </fieldset>
+            `
+    }, (err, info) => {
+        if (err) {
+            loggerError.error(err)
+            return err
+        }
+        loggerInfo.info(info);
+    });
+
+}
+
 module.exports = {
     enviarMailOrdenGenerada,
-    enviarMailRegistroUsuario
+    enviarMailRegistroUsuario,
+    enviarMailErrorServer
 };
