@@ -7,8 +7,6 @@ const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 
 const passport = require('passport');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const checkAuthentication = require('./app/middlewares/checkAuthentication');
 
 const routerProducts = require('./routes/products.routes');
@@ -38,11 +36,9 @@ if (cluster.isMaster && config.MODO_CLUSTER) {
     // Middlewares
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use(cookieParser());
-    app.use(session(require('./config/session')));
     app.use(passport.initialize());
-    app.use(passport.session());
 
+    // template engine
     app.set('views', process.cwd() + '/src/views');
     app.set('view engine', 'ejs');
 

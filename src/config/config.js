@@ -23,6 +23,10 @@ module.exports = {
     MONGO_URL: process.env.MONGO_URL,
     MONGO_URL_ATLAS: process.env.MONGO_URL_ATLAS,
 
+    // token secreto acceso
+    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
+    TOKEN_EXPIRATION_TIME: process.env.TOKEN_EXPIRATION_TIME || '10m',
+
     // KEY SECRETA SESSION
     SECRET_KEY_SESSION: process.env.SECRET_KEY_SESSION,
 

@@ -23,7 +23,8 @@ formLogin.onsubmit = async (e) => {
 
         const data = await response.json();
 
-        if (data.status == "success") {
+        if (data.accessToken) {
+            localStorage.setItem('token', data.accessToken)
             alert('Login correcto');
             setTimeout(() => {
                 window.location.replace('/');
@@ -37,6 +38,7 @@ formLogin.onsubmit = async (e) => {
     }
 };
 
+/*
 // registro
 const formRegister = document.querySelector('#registerForm'),
     inputEmail = document.getElementById('username'),
@@ -87,3 +89,4 @@ formRegister.onsubmit = async (e) => {
         console.log(error);
     }
 };
+*/

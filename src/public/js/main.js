@@ -1,6 +1,11 @@
 // obtener userAuth
 (async () => {
-    const response = await fetch('/getUser');
+    const response = await fetch('/getUser', {
+        headers: {
+            'Authorization': localStorage.getItem('token')
+        }
+    });
+    
     const data = await response.json();
     if (Object.keys(data)[0] != 'error') {
         let fotoUrl = data.foto == null 
@@ -13,7 +18,7 @@
                 <img src="${fotoUrl}" width="45px" />
             `
         document.getElementById('btnLogout').innerHTML = `
-                <a class="btn btn-sm btn-danger" href="/auth/logout">Logout</a>
+                <button onclick="logout()" class="btn btn-sm btn-danger">Logout</button>
             `
     } else {
         document.getElementById('user').innerHTML = `
@@ -72,7 +77,11 @@ const renderProducts = (data) => {
 
 const productosListar = async () => {
     try {
-        const response = await fetch('/productos/listar');
+        const response = await fetch('/productos/listar', {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        });
         const data = await response.json();
         renderProducts(data);
     } catch (error) {
@@ -83,7 +92,11 @@ const productosListar = async () => {
 const renderCarrito = async () => {
 
     try {
-        const response = await fetch('/carrito/listar');
+        const response = await fetch('/carrito/listar', {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        });
         const data = await response.json();
         if (Object.keys(data)[0] != 'error') {
             const template = data.map((carrito) => `
@@ -142,7 +155,8 @@ formAddProduct.onsubmit = async (e) => {
     try {
         const response = await fetch('/productos/agregar', {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')
             },
             method: 'POST',
             body: JSON.stringify(datosFormulario)
@@ -178,7 +192,11 @@ const formEditProduct = document.querySelector('#formEditProduct'),
 const editarProducto = async (id) => {
 
     try {
-        let response = await fetch(`/productos/listar/${id}`);
+        let response = await fetch(`/productos/listar/${id}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        });
         let data = await response.json();
 
         inputEditCodigo.setAttribute('value', `${data.codigo}`)
@@ -204,7 +222,8 @@ const editarProducto = async (id) => {
             try {
                 let response = await fetch(`/productos/actualizar/${data.id}`, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem('token')
                     },
                     method: 'PUT',
                     body: JSON.stringify(datosEditFormulario)
@@ -239,6 +258,9 @@ const eliminarProducto = async (id) => {
 
     try {
         const response = await fetch(`/productos/borrar/${id}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            },
             method: 'delete'
         });
         const data = await response.json();
@@ -259,7 +281,8 @@ const agregarCarrito = async (id_product) => {
     try {
         const response = await fetch(`/carrito/agregar/${id_product}`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')
             },
             method: 'POST',
             body: JSON.stringify({ cantidad: 1 })
@@ -280,6 +303,9 @@ const eliminarCarrito = async (id) => {
 
     try {
         const response = await fetch(`/carrito/borrar/${id}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            },
             method: 'delete'
         });
         const data = await response.json();
@@ -300,6 +326,9 @@ const eliminarCarrito = async (id) => {
 const newOrder = async () => {
     try {
         const response = await fetch('/ordenes/agregar', {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            },
             method: 'POST'
         });
         const data = await response.json();
@@ -376,7 +405,11 @@ formSearch.onsubmit = async (e) => {
     }
 
     try {
-        const response = await fetch(`/productos/buscar?nombre=${datosFormSearch.nombre}&codigo=${datosFormSearch.codigo}&precioMin=${datosFormSearch.precioMin}&precioMax=${datosFormSearch.precioMax}&stockMin=${datosFormSearch.stockMin}&stockMax=${datosFormSearch.stockMax}`)
+        const response = await fetch(`/productos/buscar?nombre=${datosFormSearch.nombre}&codigo=${datosFormSearch.codigo}&precioMin=${datosFormSearch.precioMin}&precioMax=${datosFormSearch.precioMax}&stockMin=${datosFormSearch.stockMin}&stockMax=${datosFormSearch.stockMax}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        })
         const data = await response.json();
         renderProducts(data);
     } catch (error) {
@@ -401,4 +434,9 @@ const limpiarInputsSearchForm = () => {
     document.getElementById('inputSearchPrecioMax').value = '';
     document.getElementById('inputSearchStockMin').value = '';
     document.getElementById('inputSearchStockMax').value = '';
+}
+
+function logout() {
+    localStorage.clear()
+    window.location.replace('/')
 }

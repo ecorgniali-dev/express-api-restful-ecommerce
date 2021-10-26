@@ -1,8 +1,8 @@
 const transporterGm = require('../email/gmail');
 const config = require('../../config/config');
-const { loggerInfo, loggerWarn} = require('../../config/log4js');
+const { loggerInfo, loggerWarn } = require('../../config/log4js');
 
-function enviarMail(orderItems, cliente) {
+function enviarMailOrdenGenerada(orderItems, cliente) {
 
     const template = orderItems.map((producto) => `<tr><td>${producto.item.codigo}</td><td>${producto.item.nombre}</td><td>${producto.cantidad}</td><td>${producto.item.precio}</td></tr>`).join('');
 
@@ -41,4 +41,31 @@ function enviarMail(orderItems, cliente) {
 
 }
 
-module.exports = enviarMail;
+function enviarMailRegistroUsuario(newUser) {
+
+    //envio aviso logueo con Gmail
+    transporterGm.sendMail({
+        from: config.GMAIL_USER,
+        to: config.ADMIN_EMAIL,
+        subject: 'Nuevo Registro de Usuario',
+        html: `
+                <p>Email: ${newUser.email}</p>
+                <p>Nombre: ${newUser.nombre}</p>
+                <p>Dirección: ${newUser.direccion}</p>
+                <p>Edad: ${newUser.edad}</p>
+                <p>Teléfono: ${newUser.telefono}</p>
+            `
+    }, (err, info) => {
+        if (err) {
+            loggerError.error(err)
+            return err
+        }
+        loggerInfo.info(info);
+    });
+
+}
+
+module.exports = {
+    enviarMailOrdenGenerada,
+    enviarMailRegistroUsuario
+};

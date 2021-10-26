@@ -3,7 +3,7 @@ const router = Router();
 const shoppingCartController = require('../app/controllers/shoppingCarts');
 const ordersController = require('../app/controllers/orders');
 const { loggerInfo, loggerError, loggerWarn } = require('../config/log4js');
-const sendMail = require('../app/helpers/sendMail');
+const { enviarMailOrdenGenerada } = require('../app/helpers/sendMail');
 
 router.get('/listar', async (req, res) => {
     try {
@@ -26,7 +26,7 @@ router.post('/agregar', async (req, res) => {
         if (itemsClientCart.length) {
             let data = await ordersController.save(cliente, itemsClientCart);
             if (data.estado == 'generada') {
-                sendMail(data.productos, cliente);
+                enviarMailOrdenGenerada(data.productos, cliente);
                 res.json({ status: "ok", descripcion: 'Orden generada con exito' });
             }
         } else {
