@@ -1,8 +1,8 @@
 const IDao = require('../IDao');
 const { mySql } = require('../../../config/config');
-const { loggerError } = require('../../../config/log4js');
 const knex = require('knex')(mySql);
 const UserDTO = require('../../DTO/userDTO');
+const { createTable } = require('../../models/knex/user');
 
 let instanciaMySQL = null;
 
@@ -12,7 +12,7 @@ class MySQLDao extends IDao {
         super();
 
         this.tableName = 'usuarios';
-        this.createTable(this.tableName);
+        createTable(this.tableName);
     }
 
     static getInstance() {
@@ -21,22 +21,6 @@ class MySQLDao extends IDao {
         }
 
         return instanciaMySQL;
-    }
-
-    async createTable(tableName) {
-        const exists = await knex.schema.hasTable(tableName);
-        if (!exists) {
-            return await knex.schema.createTable(tableName, table => {
-                table.increments('id');
-                table.string('email').unique().notNullable();
-                table.string('password').notNullable();
-                table.string('nombre').notNullable();
-                table.string('direccion').notNullable();
-                table.integer('edad').unsigned().notNullable();
-                table.string('telefono').notNullable();
-                table.string('foto');
-            });
-        }
     }
 
     async create(user) {

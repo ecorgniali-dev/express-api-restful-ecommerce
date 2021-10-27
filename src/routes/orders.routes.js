@@ -28,12 +28,15 @@ router.post('/agregar', async (req, res) => {
             if (data.estado == 'generada') {
                 enviarMailOrdenGenerada(data.productos, cliente);
                 res.json({ status: "ok", descripcion: 'Orden generada con exito' });
+            } else {
+                res.json({ error: 'La orden no pudo ser generada' })
             }
         } else {
             res.status(404).json({ error: 'Antes de generar un pedido debe agregar productos al carrito' });
         }
     } catch (error) {
         loggerError.error(error.message);
+        res.json({ error: 'La orden no pudo ser generada' })
     }
 
 });
@@ -43,6 +46,7 @@ router.put('/actualizar/:id', async (req, res) => {
         res.json(await ordersController.update(req.params.id, req.body));
     } catch (error) {
         loggerError.error(error.message);
+        res.json({ error: 'La orden no pudo ser actualizada' })
     }
 });
 
@@ -51,6 +55,7 @@ router.delete('/borrar/:id', async (req, res) => {
         res.json(await ordersController.delete(req.params.id));
     } catch (error) {
         loggerError.error(error.message);
+        res.json({ error: 'La orden no pudo ser eliminada' })
     }
 });
 
@@ -59,6 +64,7 @@ router.put('/confirmar/:id', async (req, res) => {
         res.json(await ordersController.update(req.params.id, { estado: 'enviada' }));
     } catch (error) {
         loggerError.error(error.message);
+        res.json({ error: 'La orden no pudo ser confirmada' })
     }
 });
 

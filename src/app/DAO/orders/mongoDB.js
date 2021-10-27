@@ -1,6 +1,6 @@
 const IDao = require('../IDao');
-const ordersModel = require('../../models/order');
-const shoppingCartModel = require('../../models/shoppingCart');
+const ordersModel = require('../../models/mongoose/order');
+const shoppingCartModel = require('../../models/mongoose/shoppingCart');
 const MongoDBConnection = require('../../../database/connection');
 const config = require('../../../config/config');
 

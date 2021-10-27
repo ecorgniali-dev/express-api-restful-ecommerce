@@ -1,5 +1,5 @@
 const IDao = require('../IDao');
-const productModel = require('../../models/product');
+const productModel = require('../../models/mongoose/product');
 const MongoDBConnection = require('../../../database/connection');
 const config = require('../../../config/config');
 
