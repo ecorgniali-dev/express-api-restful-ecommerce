@@ -20,11 +20,8 @@ router.get('/listar', async(req, res) => {
 router.get('/listar/:id', async(req, res) => {
     try {
         const data = await carrito.listId(req.params.id);
-        if (data.length > 0) {
-            res.json(data[0]);
-        } else {
-            throw new Error(`El carrito con id: ${req.params.id} no existe.`)
-        }
+        if(!data) throw new Error(`El carrito con id: ${req.params.id} no existe.`)
+        return res.json(data);
     } catch (error) {
         loggerWarn.warn(error.message);
         res.json({ error: error.message });

@@ -47,8 +47,7 @@ class MongoDBDao extends IDao {
     }
 
     async readId(id) {
-        const data = await this.nombreColeccion.findById(id).populate("producto");
-        return [data];
+        return await this.nombreColeccion.findById(id).populate("producto");
     }
 
     async update(id, data) {

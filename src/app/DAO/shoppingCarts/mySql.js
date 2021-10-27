@@ -69,9 +69,11 @@ class MySQLDao extends IDao {
     async readId(id) {
         let carrito = await knex.from(this.tableName)
             .join('productos', 'product_id', '=', 'productos.id')
-            .select('carritos.id', 'carritos.timestamp', 'carritos.product_id', 'carritos.client_id', 'productos.nombre', 'productos.descripcion', 'productos.codigo', 'productos.foto', 'productos.precio', 'productos.stock')
+            .select('carritos.id', 'carritos.timestamp', 'carritos.cantidad', 'carritos.product_id', 'carritos.client_id', 'productos.nombre', 'productos.descripcion', 'productos.codigo', 'productos.foto', 'productos.precio', 'productos.stock')
             .where('carritos.id', id);
-        return [{
+            
+        if(carrito.length == 0) return false
+        return {
             id: carrito[0].id,
             timestamp: carrito[0].timestamp,
             producto: {
@@ -82,8 +84,9 @@ class MySQLDao extends IDao {
                 foto: carrito[0].foto,
                 precio: carrito[0].precio,
                 stock: carrito[0].stock
-            }
-        }];
+            },
+            cantidad: carrito[0].cantidad
+        };
     }
 
     async update(id, data) {
