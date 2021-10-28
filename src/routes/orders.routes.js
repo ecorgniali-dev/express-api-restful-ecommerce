@@ -2,13 +2,23 @@ const { Router } = require('express');
 const router = Router();
 const shoppingCartController = require('../app/controllers/shoppingCarts');
 const ordersController = require('../app/controllers/orders');
-const { loggerInfo, loggerError, loggerWarn } = require('../config/log4js');
+const { loggerError } = require('../config/log4js');
 const { enviarMailOrdenGenerada } = require('../app/helpers/sendMail');
 
 router.get('/listar', async (req, res) => {
     try {
         let ordenes = await ordersController.list({ email: req.user.email });
-        res.render('ordenes', { ordenes: ordenes });
+        res.json(ordenes);
+    } catch (error) {
+        loggerError.error(error.message);
+        res.json({ status: 'error' })
+    }
+});
+
+router.get('/listar/:id', async (req, res) => {
+    try {
+        let orden = await ordersController.listId(req.params.id);
+        res.json(orden);
     } catch (error) {
         loggerError.error(error.message);
         res.json({ status: 'error' })
@@ -25,12 +35,11 @@ router.post('/agregar', async (req, res) => {
         const itemsClientCart = await shoppingCartController.list(req.user.id);
         if (itemsClientCart.length) {
             let data = await ordersController.save(cliente, itemsClientCart);
-            if (data.estado == 'generada') {
-                enviarMailOrdenGenerada(data.productos, cliente);
-                res.json({ status: "ok", descripcion: 'Orden generada con exito' });
-            } else {
-                res.json({ error: 'La orden no pudo ser generada' })
+            if (data) {
+                enviarMailOrdenGenerada(itemsClientCart, cliente)
+                return res.json({ success: 'Orden generada con exito' });
             }
+            throw new Error('Error al guardar orden')
         } else {
             res.status(404).json({ error: 'Antes de generar un pedido debe agregar productos al carrito' });
         }

@@ -4,7 +4,7 @@ const { loggerInfo, loggerWarn } = require('../../config/log4js');
 
 function enviarMailOrdenGenerada(orderItems, cliente) {
 
-    const template = orderItems.map((producto) => `<tr><td>${producto.item.codigo}</td><td>${producto.item.nombre}</td><td>${producto.cantidad}</td><td>${producto.item.precio}</td></tr>`).join('');
+    const template = orderItems.map((producto) => `<tr><td>${producto.producto.codigo}</td><td>${producto.producto.nombre}</td><td>${producto.cantidad}</td><td>${producto.producto.precio}</td></tr>`).join('');
 
     // envio de email al admin
     transporterGm.sendMail({
