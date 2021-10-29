@@ -31,21 +31,19 @@ class MongoDBDao extends IDao {
     async create(cliente, carrito) {
         let productos = carrito.map(e => {
             return {
-                item: {
-                    codigo: e.producto.codigo,
-                    nombre: e.producto.nombre,
-                    descripcion: e.producto.descripcion,
-                    precio: e.producto.precio,
-                    foto: e.producto.foto
-                },
+                codigo: e.producto.codigo,
+                nombre: e.producto.nombre,
+                descripcion: e.producto.descripcion,
+                precio: e.producto.precio,
+                foto: e.producto.foto,
                 cantidad: e.cantidad
             }
         })
         await shoppingCartModel.deleteMany({ cliente: cliente.id })
         return await this.nombreColeccion.create({
-            productos: productos, 
-            email: cliente.email, 
-            direccion: cliente.direccion 
+            productos: productos,
+            email: cliente.email,
+            direccion: cliente.direccion
         });
 
     }

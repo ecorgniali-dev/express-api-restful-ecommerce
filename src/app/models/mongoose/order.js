@@ -3,13 +3,11 @@ const mongoose = require('mongoose');
 const orderSchema = mongoose.Schema({
     productos: [
         {
-            item: {
-                codigo: String,
-                nombre: String,
-                descripcion: String,
-                precio: Number,
-                foto: String
-            },
+            codigo: String,
+            nombre: String,
+            descripcion: String,
+            precio: Number,
+            foto: String,
             cantidad: Number
         }
     ],
@@ -22,7 +20,7 @@ const orderSchema = mongoose.Schema({
 orderSchema.set('toJSON', {
     virtuals: true,
     versionKey: false,
-    transform: function(doc, ret) { delete ret._id }
+    transform: function (doc, ret) { delete ret._id }
 });
 
 const Order = mongoose.model('ordenes', orderSchema);

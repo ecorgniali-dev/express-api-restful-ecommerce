@@ -333,7 +333,7 @@ const newOrder = async () => {
         });
         const data = await response.json();
         if (Object.keys(data)[0] != 'error') {
-            alert(data.descripcion)
+            alert(data.success)
         } else {
             alert(data.error)
         }
