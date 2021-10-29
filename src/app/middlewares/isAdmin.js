@@ -7,7 +7,7 @@ const isAdmin = (req, res, next) => {
             next();
         } else {
             loggerWarn.warn(`Ruta ${req.originalUrl} método ${req.method} no autorizada`);
-            res.json({ error : -1, descripcion: `ruta ${req.originalUrl} método ${req.method} no autorizada` })
+            res.status(403).json({ error : -1, descripcion: `ruta ${req.originalUrl} método ${req.method} no autorizada` })
         }
     } catch (error) {
         loggerWarn.warn(error);
