@@ -19,6 +19,34 @@ const { loggerWarn } = require('../config/log4js');
  *     responses:
  *       200:
  *         description: operación exitosa
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               producto:
+ *                 type: object
+ *                 properties:
+ *                   codigo:
+ *                     type: string
+ *                   nombre:
+ *                     type: string
+ *                   descripcion:
+ *                     type: string
+ *                   precio:
+ *                     type: number
+ *                   stock:
+ *                     type: integer
+ *                   foto:
+ *                     type: string
+ *               cantidad:
+ *                 type: 'integer'
+ *               cliente:
+ *                 type: string
+ *               timestamp:
+ *                 type: string
+ *               id:
+ *                 type: string
  *       403:
  *         description: operacion no autorizada
  */

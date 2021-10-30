@@ -41,6 +41,7 @@ module.exports = {
     TWILIO_NUM_WHATSAPP: process.env.TWILIO_NUM_WHATSAPP,
 
     // puerto servidor express
+    URL_BASE: process.env.URL_BASE || 'http://localhost',
     PORT: process.env.PORT || 8080,
 
     // configuración de permisos administrador (true o false)
