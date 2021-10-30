@@ -17,6 +17,10 @@ const routerAuth = require('./routes/auth.routes');
 const config = require('./config/config');
 const { loggerInfo, loggerWarn, loggerError } = require('./config/log4js');
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = swaggerJsDoc(require('./config/swagger'));
+
 
 if (cluster.isMaster && config.MODO_CLUSTER) {
     loggerInfo.info('num CPUs', numCPUs)
@@ -44,6 +48,7 @@ if (cluster.isMaster && config.MODO_CLUSTER) {
     app.set('views', process.cwd() + '/src/views');
     app.set('view engine', 'ejs');
 
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
     // Rutas
     app.get('/', (req, res) => {
