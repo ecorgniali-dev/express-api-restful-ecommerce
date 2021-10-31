@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const http = require('http').Server(app)
+const io = require('socket.io')(http);
 
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
@@ -13,6 +15,7 @@ const routerProducts = require('./routes/products.routes');
 const routerShoppingCart = require('./routes/shoppingCarts.routes');
 const routerOrders = require('./routes/orders.routes');
 const routerAuth = require('./routes/auth.routes');
+const routerChat = require('./routes/chat.routes');
 
 const config = require('./config/config');
 const { loggerInfo, loggerWarn, loggerError } = require('./config/log4js');
@@ -71,13 +74,21 @@ if (cluster.isMaster && config.MODO_CLUSTER) {
     app.use('/carrito', checkAuthentication, routerShoppingCart);
     app.use('/ordenes', checkAuthentication, routerOrders);
     app.use('/auth', routerAuth);
+    app.use(routerChat);
+    
+    // SOCKETS
+    const webSocket = require('./routes/ws/chat');
+    const onConnection = (socket) => {
+        webSocket(io, socket);
+    }
+    io.on('connection', onConnection);
 
     app.use(express.static(process.cwd() + '/src/public'));
 
     app.use(error404); // error 404
     app.use(errorHandler); // errorHandler
 
-    const server = app.listen(config.PORT, () => {
+    const server = http.listen(config.PORT, () => {
         loggerInfo.info(`Servidor escuchando en http://localhost:${config.PORT}`);
         loggerInfo.info('Perfil admin:', config.admin);
         loggerInfo.info(`Tipo persistencia: ${config.PERSISTENCIA}`);
