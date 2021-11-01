@@ -1,6 +1,6 @@
 const transporterGm = require('../email/gmail');
 const config = require('../../config/config');
-const { loggerInfo, loggerWarn } = require('../../config/log4js');
+const { loggerInfo, loggerWarn, loggerError } = require('../../config/log4js');
 
 function enviarMailOrdenGenerada(orderItems, cliente) {
 
