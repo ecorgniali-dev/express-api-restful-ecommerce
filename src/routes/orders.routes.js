@@ -126,7 +126,6 @@ router.post('/agregar', async (req, res) => {
         if (itemsClientCart.length) {
             let data = await ordersController.save(cliente, itemsClientCart);
             if (data) {
-                enviarMailOrdenGenerada(itemsClientCart, cliente)
                 return res.json({ success: 'Orden generada con exito' });
             }
             throw new Error('Error al guardar orden')
@@ -225,7 +224,14 @@ router.delete('/borrar/:id', async (req, res) => {
  */
 router.put('/confirmar/:id', async (req, res) => {
     try {
-        res.json(await ordersController.update(req.params.id, { estado: 'enviada' }));
+        let cliente = {
+            id: req.user.id,
+            email: req.user.email,
+            direccion: req.user.direccion
+        }
+        let ordenConfirmada = await ordersController.update(req.params.id, { estado: 'enviada' })
+        enviarMailOrdenGenerada(ordenConfirmada.productos, cliente)
+        res.json(ordenConfirmada);
     } catch (error) {
         loggerError.error(error.message);
         res.json({ error: 'La orden no pudo ser confirmada' })
