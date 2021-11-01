@@ -1,37 +1,4 @@
-// obtener userAuth
-(async () => {
-    const response = await fetch('/getUser', {
-        headers: {
-            'Authorization': localStorage.getItem('token')
-        }
-    });
-    
-    const data = await response.json();
-    if (Object.keys(data)[0] != 'error') {
-        let fotoUrl = data.foto == null 
-        ? 'https://via.placeholder.com/150x150?text=noImage' 
-        : location.href+'assets/'+data.foto;
-        document.getElementById('user').innerHTML = `
-                <span style="font-size: 14px; color: white;">${data.nombre} - </span>
-                <span style="font-size: 12px; color: white;">${data.email} - </span>
-                <span style="font-size: 12px; color: white;">${data.telefono}</span>
-                <img src="${fotoUrl}" width="45px" />
-            `
-        document.getElementById('btnLogout').innerHTML = `
-                <button onclick="logout()" class="btn btn-sm btn-danger">Logout</button>
-            `
-    } else {
-        document.getElementById('user').innerHTML = `
-            <form class="form-inline">
-                <a class="btn btn-outline-success" href="signup.html">Signup</a>
-                <a class="btn btn-outline-primary" href="login.html">Login</a>
-            </form>
-            `
-    }
-})();
-
 const HTMLProducts = document.querySelector('#app');
-const HTMLCarrito = document.querySelector('#carrito');
 
 const renderProducts = (data) => {
 
@@ -89,46 +56,10 @@ const productosListar = async () => {
     }
 }
 
-const renderCarrito = async () => {
 
-    try {
-        const response = await fetch('/carrito/listar', {
-            headers: {
-                'Authorization': localStorage.getItem('token')
-            }
-        });
-        const data = await response.json();
-        if (Object.keys(data)[0] != 'error') {
-            const template = data.map((carrito) => `
-            <tr>
-                <td> <img src="${carrito.producto.foto}" width="50" height="50" alt="foto producto"> </td>
-                <td>${carrito.producto.nombre}</td>
-                <td>${carrito.producto.descripcion}</td>
-                <td style="text-align: center;">${carrito.cantidad}</td>
-                <td style="text-align: right;">$ ${carrito.producto.precio}</td>
-                <td>
-                    <button class="btn btn-sm btn-danger" type="button" onclick="eliminarCarrito('${carrito.id}')">
-                        Eliminar
-                    </button>
-                </td>
-            </tr>
-            `).join('');
-            HTMLCarrito.innerHTML = template;
-        } else {
-            const template = `<tr>
-                                <td colspan="7">${data.error}</td>
-                            </tr>`
-            HTMLCarrito.innerHTML = template;
-        }
-    } catch (error) {
-        console.log(error);
-    }
-
-}
 
 (async () => {
     await productosListar();
-    await renderCarrito();
 })();
 
 
@@ -289,7 +220,7 @@ const agregarCarrito = async (id_product) => {
         });
         const data = await response.json();
         if (Object.keys(data)[0] != 'error') {
-            renderCarrito();
+            alert('El producto se agrego al carrito')
         } else {
             alert(data.error);
         }
@@ -299,48 +230,6 @@ const agregarCarrito = async (id_product) => {
 
 }
 
-const eliminarCarrito = async (id) => {
-
-    try {
-        const response = await fetch(`/carrito/borrar/${id}`, {
-            headers: {
-                'Authorization': localStorage.getItem('token')
-            },
-            method: 'delete'
-        });
-        const data = await response.json();
-        if (Object.keys(data)[0] != 'error') {
-            renderCarrito();
-        } else {
-            alert(data.error);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-
-}
-
-//----------------------------------------------------
-//---------GENERAR NUEVA ORDEN DE PEDIDO--------------
-//----------------------------------------------------
-const newOrder = async () => {
-    try {
-        const response = await fetch('/ordenes/agregar', {
-            headers: {
-                'Authorization': localStorage.getItem('token')
-            },
-            method: 'POST'
-        });
-        const data = await response.json();
-        if (Object.keys(data)[0] != 'error') {
-            alert(data.success)
-        } else {
-            alert(data.error)
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 // mostrar u ocultar campos de busqueda
 const filterSelect = document.querySelector('#optionsSearch');
@@ -434,9 +323,4 @@ const limpiarInputsSearchForm = () => {
     document.getElementById('inputSearchPrecioMax').value = '';
     document.getElementById('inputSearchStockMin').value = '';
     document.getElementById('inputSearchStockMax').value = '';
-}
-
-function logout() {
-    localStorage.clear()
-    window.location.replace('/')
 }
