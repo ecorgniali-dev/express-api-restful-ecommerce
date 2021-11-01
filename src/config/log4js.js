@@ -3,8 +3,8 @@ const log4js = require("log4js");
 log4js.configure({
     appenders: {
         loggerConsole: { type: 'console' },
-        loggerWarnFile: { type: 'file', filename: process.cwd()+'/logs/warn.log' },
-        loggerErrorFile: { type: 'file', filename: process.cwd()+'/logs/error.log' }
+        loggerWarnFile: { type: 'file', filename: process.cwd()+'/src/logs/warn.log' },
+        loggerErrorFile: { type: 'file', filename: process.cwd()+'/src/logs/error.log' }
     },
     categories: {
         default: { appenders: ['loggerConsole'], level: 'trace' },
