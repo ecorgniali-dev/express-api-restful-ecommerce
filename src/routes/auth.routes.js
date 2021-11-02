@@ -2,6 +2,8 @@ const { Router } = require('express');
 const router = Router();
 const passport = require('../app/controllers/auth/passport');
 const upload = require('../app/middlewares/multer');
+const { signupReqValidation, loginReqValidation } = require('../app/middlewares/requestValidation');
+const { validationResult } = require('express-validator');
 
 
 /**
@@ -35,7 +37,12 @@ const upload = require('../app/middlewares/multer');
  *       404:
  *         description: 'usuario o contraseña incorrecta'
  */
-router.post('/login', (req, res, next) => {
+router.post('/login', loginReqValidation, (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     return passport.authenticate('login', (error, accessToken) => {
         if (error !== null) {
             return res.status(404).json({
@@ -96,7 +103,12 @@ router.post('/login', (req, res, next) => {
  *       404:
  *         description: 'fallo en el registro'
  */
-router.post('/signup', upload.single('foto'), (req, res, next) => {
+router.post('/signup', signupReqValidation, upload.single('foto'), (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     return passport.authenticate('signup', (err) => {
         if (err) {
             return res.status(404).json({
