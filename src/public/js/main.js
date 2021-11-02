@@ -95,12 +95,17 @@ formAddProduct.onsubmit = async (e) => {
 
         const data = await response.json();
 
-        if (Object.keys(data)[0] != 'error') {
+        if (Object.keys(data)[0] == 'error') {
+            alert(`Error: ${data.error}`);
+        } else if (Object.keys(data)[0] == 'errors') {
+            let errorsTemplate = data.errors.map(e => {
+                return `  ${e.value} --> ${e.msg}  `
+            }).join('||');
+            alert(errorsTemplate);
+        } else {
             productosListar();
             const btn = document.querySelector('#btnCancelarAdd');
             btn.click();
-        } else {
-            alert(`Error: ${data.error}. Descripción: ${data.descripcion}`);
         }
     } catch (error) {
         console.log(error);
@@ -162,12 +167,17 @@ const editarProducto = async (id) => {
 
                 let result = await response.json();
 
-                if (Object.keys(result)[0] != 'error') {
+                if (Object.keys(result)[0] == 'error') {
+                    alert(`Error: ${result.error}`);
+                } else if (Object.keys(result)[0] == 'errors') {
+                    let errorsTemplate = result.errors.map(e => {
+                        return `  ${e.value} --> ${e.msg}  `
+                    }).join('||');
+                    alert(errorsTemplate);
+                } else {
                     await productosListar();
                     const btn = document.querySelector('#btnCancelarEdit');
                     btn.click();
-                } else {
-                    alert(`Error: ${result.error}. Descripción: ${result.descripcion}`);
                 }
             } catch (error) {
                 console.log(error);

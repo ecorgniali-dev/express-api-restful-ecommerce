@@ -114,7 +114,14 @@
                     alert('Registro correcto');
                     window.location.replace('/login.html')
                 } else {
-                    alert('Registro incorrecto');
+                    if (Object.keys(data)[0] == 'errors') {
+                        let errorsTemplate = data.errors.map(e => {
+                            return `  ${e.value} --> ${e.msg}  `
+                        }).join('||');
+                        alert(errorsTemplate);
+                    } else {
+                        alert(data.error || 'Error al registrar');
+                    }
                 }
 
             } catch (error) {

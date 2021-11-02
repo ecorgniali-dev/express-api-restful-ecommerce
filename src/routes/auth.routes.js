@@ -103,20 +103,18 @@ router.post('/login', loginReqValidation, (req, res, next) => {
  *       404:
  *         description: 'fallo en el registro'
  */
-router.post('/signup', signupReqValidation, upload.single('foto'), (req, res, next) => {
+router.post('/signup', upload.single('foto'), signupReqValidation, (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    return passport.authenticate('signup', (err) => {
-        if (err) {
-            return res.status(404).json({
-                error: err
-            });
+    return passport.authenticate('signup', (err, data) => {
+        if (err) return res.status(404).json({ error: err });
+        if (data) {
+            return res.status(200).json({ success: 'Registro exitoso!' });
         }
-
-        return res.status(200).json({ success: 'Registro exitoso!' });
+        return res.status(400).json({ error: 'Usuario ya existe' });
     })(req, res, next);
 });
 

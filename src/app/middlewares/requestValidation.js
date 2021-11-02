@@ -33,8 +33,8 @@ const signupReqValidation = [
         .exists()
         .notEmpty()
         .withMessage('El campo edad es requerido')
-        .isInt({ min: 0 })
-        .withMessage('El campo edad debe ser de tipo entero positivo')
+        .isInt({ min: 18 })
+        .withMessage('El campo edad debe ser de tipo entero mayor a 18 años')
     ,
     check('telefono')
         .exists()
@@ -81,13 +81,6 @@ const productReqValidation = [
         .withMessage('El campo descripcion es requerido')
         .isString()
         .withMessage('El campo descripcion debe ser de tipo string')
-    ,
-    check('foto')
-        .exists()
-        .notEmpty()
-        .withMessage('El campo foto es requerido')
-        .isString()
-        .withMessage('El campo foto debe ser de tipo string')
     ,
     check('precio')
         .exists()
