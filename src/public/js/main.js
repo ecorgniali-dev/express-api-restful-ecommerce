@@ -207,7 +207,6 @@ const eliminarProducto = async (id) => {
         const data = await response.json();
         if (Object.keys(data)[0] != 'error') {
             await productosListar();
-            await renderCarrito();
         } else {
             alert(`Error: ${data.error}. Descripción: ${data.descripcion}`);
         }
