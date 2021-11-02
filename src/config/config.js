@@ -1,10 +1,16 @@
-require('dotenv').config();
+const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config({
+    path: path.resolve(process.cwd(), process.env.NODE_ENV + '.env')
+})
 
 module.exports = {
+    NODE_ENV: process.env.NODE_ENV || 'development',
 
     PERSISTENCIA: process.env.PERSISTENCIA || 'fileSystem',
 
-    MODO_CLUSTER: false,
+    MODO_CLUSTER: process.env.MODO_CLUSTER === 'true',
 
     // config mySql Knex
     mySql: {
@@ -21,33 +27,22 @@ module.exports = {
 
     // url mongoDB
     MONGO_URL: process.env.MONGO_URL,
-    MONGO_URL_ATLAS: process.env.MONGO_URL_ATLAS,
 
     // token secreto acceso
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
     TOKEN_EXPIRATION_TIME: process.env.TOKEN_EXPIRATION_TIME || '10m',
 
-    // KEY SECRETA SESSION
-    SECRET_KEY_SESSION: process.env.SECRET_KEY_SESSION,
-
     // credenciales Gmail
     GMAIL_USER: process.env.GMAIL_USER,
     GMAIL_PASS: process.env.GMAIL_PASS,
 
-    // credenciales Twilio
-    TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
-    TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
-    TWILIO_NUM_SMS: process.env.TWILIO_NUM_SMS,
-    TWILIO_NUM_WHATSAPP: process.env.TWILIO_NUM_WHATSAPP,
+    // mail admin (destinatario avisos)
+    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
 
     // puerto servidor express
-    URL_BASE: process.env.URL_BASE || 'http://localhost',
     PORT: process.env.PORT || 8080,
 
     // configuración de permisos administrador (true o false)
-    admin: true,
+    admin: process.env.ADMIN || true,
 
-    // mail admin
-    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
-    ADMIN_WHATSAPP: process.env.ADMIN_WHATSAPP
 }

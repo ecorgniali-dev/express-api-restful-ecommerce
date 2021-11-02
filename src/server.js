@@ -91,7 +91,7 @@ if (cluster.isMaster && config.MODO_CLUSTER) {
     const server = http.listen(config.PORT, () => {
         loggerInfo.info(`Servidor escuchando en http://localhost:${config.PORT}`);
         loggerInfo.info('Perfil admin:', config.admin);
-        loggerInfo.info(`Tipo persistencia: ${config.PERSISTENCIA}`);
+        loggerInfo.info(`NODE_ENV=${config.NODE_ENV} - PERSISTENCIA=${config.PERSISTENCIA}`);
     });
 
     server.on('error', error => {
