@@ -107,7 +107,7 @@ router.get('/listar/:id', async (req, res) => {
  * /ordenes/agregar:
  *   post:
  *     summary: 'Agregar una nueva orden'
- *     description: Genera una nueva orden con los productos que tiene cargados el carrito del cliente y se envia un aviso de email al admin con el detalle del pedido. Si el carrito esta vacío arroja un mensaje de error. 
+ *     description: Genera una nueva orden con los productos que tiene cargados el carrito del cliente. Si el carrito esta vacío arroja un mensaje de error. 
  *     tags: [Ordenes]
  *     responses:
  *       200:
@@ -203,7 +203,7 @@ router.delete('/borrar/:id', async (req, res) => {
  * /ordenes/confirmar/{id}:
  *   put:
  *     summary: 'Confirmar una orden'
- *     description: Comfirma la orden correspondiente al ID pasado como parametro y la pasa a estado enviada.
+ *     description: Comfirma la orden correspondiente al ID pasado como parametro y la pasa a estado enviada. Se envia un aviso de email al admin con el detalle del pedido.
  *     tags: [Ordenes]
  *     parameters:
  *     - name: 'id'
