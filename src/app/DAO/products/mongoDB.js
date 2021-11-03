@@ -55,9 +55,10 @@ class MongoDBDao extends IDao {
     }
 
     async search(filters) {
+        filters.nombre.length == 0 ? filters.nombre = null : '';
         return await this.nombreColeccion.find({
             $or: [
-                { nombre: filters.nombre },
+                { nombre: { $regex: '.*' + filters.nombre + '.*', $options:'i' } },
                 { codigo: filters.codigo },
                 { precio: { $gte: filters.precioMin, $lte: filters.precioMax } },
                 { stock: { $gte: filters.stockMin, $lte: filters.stockMax } }
