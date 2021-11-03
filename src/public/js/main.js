@@ -251,7 +251,7 @@ const buscarPorNombre = document.querySelector('#buscarPorNombre'),
 filterSelect.addEventListener('change', () => {
     switch (filterSelect.value) {
         case "1":
-            buscarPorNombre.setAttribute("style", "display: block;");
+            buscarPorNombre.setAttribute("style", "display: flex;");
             buscarPorCodigo.setAttribute("style", "display: none;");
             buscarPorPrecio.setAttribute("style", "display: none;");
             buscarPorStock.setAttribute("style", "display: none;");
@@ -260,7 +260,7 @@ filterSelect.addEventListener('change', () => {
             break;
         case "2":
             buscarPorNombre.setAttribute("style", "display: none;");
-            buscarPorCodigo.setAttribute("style", "display: block;");
+            buscarPorCodigo.setAttribute("style", "display: flex;");
             buscarPorPrecio.setAttribute("style", "display: none;");
             buscarPorStock.setAttribute("style", "display: none;");
             formSearchBtns.setAttribute("style", "display: block;");
@@ -269,7 +269,7 @@ filterSelect.addEventListener('change', () => {
         case "3":
             buscarPorNombre.setAttribute("style", "display: none;");
             buscarPorCodigo.setAttribute("style", "display: none;");
-            buscarPorPrecio.setAttribute("style", "display: block;");
+            buscarPorPrecio.setAttribute("style", "display: flex; gap: 5px;");
             buscarPorStock.setAttribute("style", "display: none;");
             formSearchBtns.setAttribute("style", "display: block;");
             limpiarInputsSearchForm();
@@ -278,7 +278,7 @@ filterSelect.addEventListener('change', () => {
             buscarPorNombre.setAttribute("style", "display: none;");
             buscarPorCodigo.setAttribute("style", "display: none;");
             buscarPorPrecio.setAttribute("style", "display: none;");
-            buscarPorStock.setAttribute("style", "display: block;");
+            buscarPorStock.setAttribute("style", "display: flex; gap: 5px;");
             formSearchBtns.setAttribute("style", "display: block;");
             limpiarInputsSearchForm();
             break;
