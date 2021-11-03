@@ -1,0 +1,710 @@
+{
+	"info": {
+		"_postman_id": "24bfaac4-1e9a-4b37-9e11-3d9085376add",
+		"name": "Eduardo_Corgniali_Ecommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"prueba@correo.com\",\r\n    \"password\": \"mypass\",\r\n    \"nombre\": \"Juan Perez\",\r\n    \"direccion\": \"Av Siempre Viva 741\",\r\n    \"edad\": 34,\r\n    \"telefono\": \"+54000000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/auth/signup",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", data.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"prueba@correo.com\",\r\n    \"password\": \"mypass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "agregarProducto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"iMac Pro 27\\\"\", \r\n    \"descripcion\": \"Ejemplo de descripción\", \r\n    \"codigo\": \"0005\", \r\n    \"foto\": \"https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678077-computer-128.png\",\r\n    \"precio\": 354, \r\n    \"stock\": 5 \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/productos/agregar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"productos",
+								"agregar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarProductos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/productos/listar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"productos",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarProductoPorId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/productos/listar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"productos",
+								"listar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6182e00de1a5eb12f04c6dca"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarProducto",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Nombre actualizado\", \r\n    \"descripcion\": \"Descripción actualizada\", \r\n    \"codigo\": \"0005\", \r\n    \"foto\": \"https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678077-computer-128.png\",\r\n    \"precio\": 354, \r\n    \"stock\": 5 \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/productos/actualizar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"productos",
+								"actualizar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6182e00de1a5eb12f04c6dca"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarProducto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/productos/borrar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"productos",
+								"borrar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6182e00de1a5eb12f04c6dca"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscarProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/productos/buscar?nombre=&codigo=&precioMin=&precioMax=&stockMin=&stockMax=",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"productos",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": ""
+								},
+								{
+									"key": "codigo",
+									"value": ""
+								},
+								{
+									"key": "precioMin",
+									"value": ""
+								},
+								{
+									"key": "precioMax",
+									"value": ""
+								},
+								{
+									"key": "stockMin",
+									"value": ""
+								},
+								{
+									"key": "stockMax",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carritos",
+			"item": [
+				{
+					"name": "agregarCarrito",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cantidad\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/carrito/agregar/:id_producto",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"carrito",
+								"agregar",
+								":id_producto"
+							],
+							"variable": [
+								{
+									"key": "id_producto",
+									"value": "61828942daba293110a6bb0c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarCarrito",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/carrito/listar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"carrito",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarCarritoPorId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/carrito/listar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"carrito",
+								"listar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "617b4496ce37563324fd393b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarCantidadItem",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cantidad\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/carrito/actualizar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"carrito",
+								"actualizar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "617d3564902ff4168487328e"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarItemCarrito",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/carrito/borrar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"carrito",
+								"borrar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "617b4496ce37563324fd393b"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ordenes",
+			"item": [
+				{
+					"name": "agregarOrden",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/ordenes/agregar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"ordenes",
+								"agregar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarOrdenes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/ordenes/listar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"ordenes",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarOrdenPorID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/ordenes/listar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"ordenes",
+								"listar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6182e507e1a5eb12f04c6ded"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirmarOrden",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estado\": \"enviada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/ordenes/confirmar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"ordenes",
+								"confirmar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6182e507e1a5eb12f04c6ded"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarOrden",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"direccion\": \"Nueva direccion\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/ordenes/actualizar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"ordenes",
+								"actualizar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6182e507e1a5eb12f04c6ded"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarOrden",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}:{{PORT}}/ordenes/borrar/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"ordenes",
+								"borrar",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "617b4591ce37563324fd3955"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
