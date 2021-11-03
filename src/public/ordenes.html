@@ -120,10 +120,9 @@
 
             const data = await response.json();
             if (Object.keys(data)[0] != 'error') {
-                let base_url = window.location.origin;
                 let fotoUrl = data.foto == null
                     ? 'https://via.placeholder.com/150x150?text=noImage'
-                    : base_url+ '/assets/' + data.foto;
+                    : '/assets/' + data.foto;
                 document.getElementById('user').innerHTML = `
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
