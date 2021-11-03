@@ -1,12 +1,12 @@
 # API RESTful Ecommerce
 
 - [Visión general](#visión-general)
-- [1. 🚀 Para comenzar](#1-🚀-para-comenzar)
+- [1. 🚀 Para comenzar](#1--para-comenzar)
   - [1.1 Requisitos previos](#11-requisitos-previos)
   - [1.2 Ejecutar de forma local](#12-ejecutar-de-forma-local)
-- [2. 🔐 Autenticación](#2-🔐-autenticación)
-- [3. 📄 Documentación](#3-📄-documentación-de-la-api)
-- [4. 👩‍💻 Tecnologías usadas](#4-👩‍💻-tecnologías-usadas)
+- [2. 🔐 Autenticación](#2--autenticación)
+- [3. 📄 Documentación](#3--documentación-de-la-api)
+- [4. 👩‍💻 Tecnologías usadas](#4--tecnologías-usadas)
 
 ## Visión general
 
