@@ -2,21 +2,22 @@ const transporterGm = require('../email/gmail');
 const config = require('../../config/config');
 const { loggerInfo, loggerWarn, loggerError } = require('../../config/log4js');
 
-function enviarMailOrdenGenerada(orderItems, cliente) {
+function enviarMailOrdenGenerada(orden) {
 
-    const template = orderItems.map((producto) => `<tr><td>${producto.codigo}</td><td>${producto.nombre}</td><td>${producto.cantidad}</td><td>${producto.precio}</td></tr>`).join('');
+    const template = orden.productos.map((producto) => `<tr><td><img src="${producto.foto}" width="40px"></td><td>${producto.codigo}</td><td>${producto.nombre}</td><td>${producto.cantidad}</td><td>${producto.precio}</td></tr>`).join('');
 
     // envio de email al admin
     transporterGm.sendMail({
         from: config.GMAIL_USER,
         to: config.ADMIN_EMAIL,
-        subject: `Nuevo Pedido de ${cliente.email}`,
+        subject: `Nuevo Pedido de ${orden.email}`,
         html: `
             <div>
                 <h4>Productos:</h4>
                 <table>
                     <thead>
                         <tr>
+                            <th>Foto</th>
                             <th>Codigo</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
@@ -28,8 +29,12 @@ function enviarMailOrdenGenerada(orderItems, cliente) {
                     </tbody>
                 </table>
                                 
-                <h4>Dirección de entrega:</h4>
-                <p>${cliente.direccion}</p>
+                <h4>Datos de la orden:</h4>
+                <ul>
+                    <li>Fecha y hora: ${orden.timestamp}</li>
+                    <li>Email: ${orden.email}</li>
+                    <li>Dirección de entrega: ${orden.direccion}</li>
+                </ul>
             </div>`
     }, (err, info) => {
         if (err) {
