@@ -43,6 +43,6 @@ module.exports = {
     PORT: process.env.PORT || 8080,
 
     // configuración de permisos administrador (true o false)
-    admin: process.env.ADMIN || true,
+    admin: process.env.ADMIN === 'true',
 
 }
