@@ -1,7 +1,5 @@
 # API RESTful Ecommerce
 
-## Indice
-
 - [Visión general](#visión-general)
 - [1. 🚀 Para comenzar](#1-🚀-para-comenzar)
   - [1.1 Requisitos previos](#11-requisitos-previos)
