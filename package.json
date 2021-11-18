@@ -1,7 +1,7 @@
 {
-  "name": "proyectofinalcoder-3ra-entrega",
+  "name": "express-api-restful-ecommerce",
   "version": "1.0.0",
-  "description": "",
+  "description": "API REST de comercio electrónico desarrollada con Node.js y Express.js",
   "main": "./src/server.js",
   "scripts": {
     "start": "npm run prod",
