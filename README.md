@@ -50,7 +50,7 @@ local:
 - Clonar repositorio
 
   ```
-  git clone https://github.com/ecorgniali-dev/proyecto-final-coder.git
+  git clone https://github.com/ecorgniali-dev/express-api-restful-ecommerce.git
   ```
 
 - Generar un archivo duplicado de `development.env.example` y
